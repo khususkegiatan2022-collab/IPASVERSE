@@ -1,286 +1,1496 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Simbiosis — Materi &amp; Latihan Soal</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --bg:#F6F1E4; --surface:#FFFFFF; --surface-2:#EFE8D3; --ink:#1F2E22; --muted:#6E6555; --line:#DED3B6;
-    --mutual:#B4790C; --mutual-bg:#F4E4C2;
-    --commensal:#2B6E6E; --commensal-bg:#D9EBE9;
-    --parasite:#A1443C; --parasite-bg:#F3DDD8;
-    --radius:14px;
-  }
-  @media (prefers-color-scheme: dark){
-    :root:not([data-theme="light"]){
-      --bg:#10190F; --surface:#182415; --surface-2:#1F2C1A; --ink:#ECE6D4; --muted:#9BA48D; --line:#33422C;
-      --mutual:#E3A93F; --mutual-bg:#3A2E13;
-      --commensal:#6FBDBB; --commensal-bg:#12312E;
-      --parasite:#DE7B71; --parasite-bg:#3A1D19;
-    }
-  }
-  :root[data-theme="dark"]{
-    --bg:#10190F; --surface:#182415; --surface-2:#1F2C1A; --ink:#ECE6D4; --muted:#9BA48D; --line:#33422C;
-    --mutual:#E3A93F; --mutual-bg:#3A2E13;
-    --commensal:#6FBDBB; --commensal-bg:#12312E;
-    --parasite:#DE7B71; --parasite-bg:#3A1D19;
-  }
-  *{box-sizing:border-box;}
-  html{scroll-padding-top:env(safe-area-inset-top,0px);}
-  body{
-    margin:0; background:var(--bg); color:var(--ink);
-    font-family:"Work Sans",system-ui,sans-serif;
-    padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
-    -webkit-font-smoothing:antialiased;
-  }
-  @media (prefers-reduced-motion: reduce){ *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;} }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jejak Petualangan Aqua: Misi Menyelamatkan Daur Air</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- JSZip for generating downloadable ZIP package -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        aqua: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                        },
+                        sun: '#fbbf24',
+                        leaf: '#22c55e',
+                    },
+                    fontFamily: {
+                        fredoka: ['Fredoka', 'sans-serif'],
+                        body: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 3s ease-in-out infinite',
+                        'bounce-slow': 'bounce 2s infinite',
+                        'pulse-glow': 'pulseGlow 2s infinite',
+                        'rain': 'rain 0.8s linear infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-12px)' },
+                        },
+                        pulseGlow: {
+                            '0%, 100%': { opacity: '1', filter: 'drop-shadow(0 0 10px rgba(56,189,248,0.8))' },
+                            '50%': { opacity: '0.8', filter: 'drop-shadow(0 0 20px rgba(251,191,36,0.9))' },
+                        },
+                        rain: {
+                            '0%': { transform: 'translateY(0)', opacity: '1' },
+                            '100%': { transform: 'translateY(20px)', opacity: '0' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
 
-  h1,h2,h3{font-family:"Fraunces",serif; margin:0; letter-spacing:-0.01em;}
-  p{margin:0;}
-  .wrap{max-width:760px; margin:0 auto; padding:0 24px;}
-
-  /* ---- NAV ---- */
-  nav{position:sticky; top:0; z-index:20; background:color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter:blur(8px); border-bottom:1px solid var(--line);}
-  nav .wrap{display:flex; align-items:center; justify-content:space-between; height:56px; max-width:820px;}
-  .brand{font-family:"Fraunces",serif; font-weight:600; font-size:1.05rem;}
-  .navlinks{display:flex; gap:22px;}
-  .navlinks a{color:var(--muted); text-decoration:none; font-size:0.92rem; font-weight:500;}
-  .navlinks a:hover, .navlinks a:focus-visible{color:var(--ink);}
-
-  /* ---- HERO ---- */
-  .hero{padding:64px 0 40px;}
-  .hero .wrap{max-width:820px;}
-  .rings{position:relative; width:150px; height:100px; margin-bottom:28px;}
-  .rings circle{fill-opacity:0.5;}
-  .hero h1{font-size:clamp(2.6rem,7vw,4.2rem); line-height:0.98; font-weight:600;}
-  .hero p.lede{margin-top:16px; max-width:52ch; font-size:1.08rem; line-height:1.6; color:var(--muted);}
-
-  /* ---- SECTION HEADS ---- */
-  section{padding:52px 0;}
-  .section-head{margin-bottom:28px; max-width:820px;}
-  .section-head h2{font-size:clamp(1.7rem,4vw,2.3rem); font-weight:500; font-style:italic;}
-  .section-head p{color:var(--muted); margin-top:8px; font-size:0.98rem; max-width:56ch;}
-
-  /* ---- MATERI CARDS ---- */
-  .type-card{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:26px 26px 22px; margin-bottom:18px; border-left:5px solid var(--accent);}
-  .type-card.mutual{--accent:var(--mutual);}
-  .type-card.commensal{--accent:var(--commensal);}
-  .type-card.parasite{--accent:var(--parasite);}
-  .type-head{display:flex; align-items:baseline; gap:12px; flex-wrap:wrap;}
-  .type-head h3{font-size:1.5rem; color:var(--accent); font-weight:600;}
-  .type-tag{font-size:0.78rem; padding:3px 10px; border-radius:20px; background:var(--tagbg); color:var(--accent); font-weight:600;}
-  .type-card.mutual .type-tag{--tagbg:var(--mutual-bg);}
-  .type-card.commensal .type-tag{--tagbg:var(--commensal-bg);}
-  .type-card.parasite .type-tag{--tagbg:var(--parasite-bg);}
-  .type-card p.def{margin-top:10px; line-height:1.65; color:var(--ink);}
-  .examples{display:flex; flex-wrap:wrap; gap:8px; margin-top:16px;}
-  .examples span{font-size:0.85rem; background:var(--surface-2); border:1px solid var(--line); padding:6px 12px; border-radius:8px; color:var(--ink);}
-
-  .note{font-size:0.9rem; color:var(--muted); border-top:1px dashed var(--line); margin-top:8px; padding-top:16px; line-height:1.6;}
-
-  /* ---- QUIZ ---- */
-  .quiz-card{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:28px; max-width:640px;}
-  .quiz-top{display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;}
-  .quiz-top span{font-size:0.85rem; color:var(--muted); font-weight:600;}
-  .progress-track{height:5px; background:var(--surface-2); border-radius:4px; overflow:hidden; margin-bottom:24px;}
-  .progress-fill{height:100%; background:var(--mutual); width:0%; transition:width .35s ease;}
-  .q-text{font-family:"Fraunces",serif; font-size:1.3rem; font-weight:500; line-height:1.4; margin-bottom:20px;}
-  .options{display:flex; flex-direction:column; gap:10px;}
-  .opt-btn{
-    text-align:left; padding:13px 16px; border-radius:10px; border:1.5px solid var(--line);
-    background:var(--surface); color:var(--ink); font-family:inherit; font-size:0.98rem;
-    cursor:pointer; transition:border-color .15s, background .15s;
-  }
-  .opt-btn:hover{border-color:var(--muted);}
-  .opt-btn:focus-visible{outline:2px solid var(--commensal); outline-offset:2px;}
-  .opt-btn.correct{border-color:var(--commensal); background:var(--commensal-bg); font-weight:600;}
-  .opt-btn.wrong{border-color:var(--parasite); background:var(--parasite-bg);}
-  .opt-btn[disabled]{cursor:default;}
-  .feedback{margin-top:16px; font-size:0.92rem; line-height:1.55; color:var(--muted); min-height:1.2em;}
-  .quiz-actions{margin-top:22px; display:flex; justify-content:flex-end;}
-  .next-btn{
-    background:var(--ink); color:var(--bg); border:none; padding:10px 20px; border-radius:8px;
-    font-family:inherit; font-weight:600; font-size:0.92rem; cursor:pointer; opacity:0; pointer-events:none; transition:opacity .2s;
-  }
-  .next-btn.show{opacity:1; pointer-events:auto;}
-
-  .result{text-align:center; padding:20px 0;}
-  .result .score{font-family:"Fraunces",serif; font-size:3.4rem; font-weight:600; color:var(--mutual);}
-  .result p{color:var(--muted); margin-top:8px;}
-  .restart-btn{margin-top:20px; background:transparent; border:1.5px solid var(--line); color:var(--ink); padding:10px 22px; border-radius:8px; font-family:inherit; font-weight:600; cursor:pointer;}
-  .restart-btn:hover{border-color:var(--ink);}
-
-  footer{padding:36px 0 60px; text-align:center; color:var(--muted); font-size:0.85rem;}
-</style>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            user-select: none;
+            -webkit-user-select: none;
+            background: #0f172a;
+            overflow-x: hidden;
+        }
+        h1, h2, h3, .font-fun {
+            font-family: 'Fredoka', cursive;
+        }
+        .btn-bounce {
+            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .btn-bounce:hover {
+            transform: scale(1.05) translateY(-2px);
+        }
+        .btn-bounce:active {
+            transform: scale(0.95) translateY(1px);
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(12px);
+            border: 2px solid rgba(255, 255, 255, 0.6);
+        }
+        .glass-dark {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        .cloud-bg {
+            background-image: radial-gradient(#38bdf8 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #38bdf8;
+            border-radius: 4px;
+        }
+    </style>
 </head>
-<body>
+<body class="text-slate-800 min-h-screen flex flex-col justify-between bg-slate-900 selection:bg-sky-200">
 
-<nav>
-  <div class="wrap">
-    <span class="brand">Simbiosis</span>
-    <div class="navlinks">
-      <a href="#materi">Materi</a>
-      <a href="#latihan">Latihan Soal</a>
+    <script>
+        /* WEB AUDIO SOUND EFFECTS GENERATOR */
+        const SoundFX = {
+            ctx: null,
+            init() {
+                if (!this.ctx) {
+                    this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+            },
+            playClick() {
+                this.init();
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(400, this.ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(800, this.ctx.currentTime + 0.08);
+                gain.gain.setValueAtTime(0.15, this.ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.08);
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start();
+                osc.stop(this.ctx.currentTime + 0.08);
+            },
+            playCorrect() {
+                this.init();
+                const now = this.ctx.currentTime;
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(523.25, now); // C5
+                osc.frequency.setValueAtTime(659.25, now + 0.1); // E5
+                osc.frequency.setValueAtTime(783.99, now + 0.2); // G5
+                osc.frequency.setValueAtTime(1046.50, now + 0.3); // C6
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start();
+                osc.stop(now + 0.5);
+            },
+            playWrong() {
+                this.init();
+                const now = this.ctx.currentTime;
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(220, now);
+                osc.frequency.setValueAtTime(160, now + 0.15);
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start();
+                osc.stop(now + 0.35);
+            },
+            playItemGet() {
+                this.init();
+                const now = this.ctx.currentTime;
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(587.33, now); // D5
+                osc.frequency.setValueAtTime(880, now + 0.12); // A5
+                gain.gain.setValueAtTime(0.25, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start();
+                osc.stop(now + 0.4);
+            },
+            playFanfare() {
+                this.init();
+                const notes = [523.25, 659.25, 783.99, 1046.50, 1318.51];
+                notes.forEach((freq, idx) => {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    const now = this.ctx.currentTime + idx * 0.12;
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(freq, now);
+                    gain.gain.setValueAtTime(0.25, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.3);
+                });
+            }
+        };
+
+        // GLOBAL GAME STATE
+        const state = {
+            score: 0,
+            lives: 3,
+            currentLevel: 1,
+            unlockedLevel: 1,
+            completedLevels: [],
+            inventory: {
+                water_drop: false,    // 💧 Tetes Air
+                sun_energy: false,    // ☀️ Energi Matahari
+                cloud_crystal: false, // ☁️ Kristal Awan
+                river_stone: false,   // 🌊 Batu Sungai
+                tree_seed: false      // 🌱 Benih Pohon
+            },
+            soundEnabled: true
+        };
+
+        function playSfx(type) {
+            if (!state.soundEnabled) return;
+            if (type === 'click') SoundFX.playClick();
+            if (type === 'correct') SoundFX.playCorrect();
+            if (type === 'wrong') SoundFX.playWrong();
+            if (type === 'item') SoundFX.playItemGet();
+            if (type === 'fanfare') SoundFX.playFanfare();
+        }
+    </script>
+
+    <!-- TOP BAR / HUD (Displayed during gameplay & map) -->
+    <header id="top-bar" class="hidden sticky top-0 z-40 w-full bg-slate-900/95 backdrop-blur-md border-b border-sky-800/50 shadow-lg px-4 py-3">
+        <div class="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-2">
+            
+            <!-- Left: Mascot & Level Name -->
+            <div class="flex items-center gap-3">
+                <button onclick="goToMap()" class="btn-bounce bg-sky-500 hover:bg-sky-400 text-white p-2 rounded-xl flex items-center gap-1 font-bold shadow-md text-sm">
+                    <span>🗺️</span>
+                    <span class="hidden sm:inline">Peta</span>
+                </button>
+                <div class="flex items-center gap-2 bg-slate-800 px-3 py-1.5 rounded-xl border border-sky-500/30">
+                    <span id="hud-mascot-icon" class="text-2xl animate-float">💧</span>
+                    <div>
+                        <p class="text-xs text-sky-300 font-semibold uppercase tracking-wider">Misi Saat Ini</p>
+                        <p id="hud-level-title" class="text-xs sm:text-sm font-bold text-white font-fun">Level 1: Gerbang Laut</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Center: Lives & Real-time Score -->
+            <div class="flex items-center gap-4">
+                <!-- Hearts / Lives -->
+                <div class="flex items-center gap-1 bg-slate-800/80 px-3 py-1.5 rounded-xl border border-rose-500/30">
+                    <span class="text-xs text-slate-300 font-bold hidden md:inline">Nyawa:</span>
+                    <div id="hud-lives" class="flex gap-1 text-lg">
+                        <span>💧</span><span>💧</span><span>💧</span>
+                    </div>
+                </div>
+
+                <!-- Score Counter -->
+                <div class="flex items-center gap-2 bg-amber-500/20 px-3 py-1.5 rounded-xl border border-amber-400/40">
+                    <span class="text-xl">⭐</span>
+                    <div>
+                        <span class="text-[10px] text-amber-300 block uppercase font-bold leading-none">Skor</span>
+                        <span id="hud-score" class="text-lg font-black text-amber-300 font-fun leading-none">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Inventory Slots & Sound Toggle -->
+            <div class="flex items-center gap-2">
+                <div class="bg-slate-800/90 px-3 py-1 rounded-xl border border-slate-700 flex items-center gap-1.5">
+                    <span class="text-xs text-slate-400 font-bold hidden xl:inline">🎒 Inventory:</span>
+                    <div class="flex gap-1.5 text-base">
+                        <span id="inv-drop" title="Tetes Air" class="opacity-30 grayscale transition-all">💧</span>
+                        <span id="inv-sun" title="Energi Matahari" class="opacity-30 grayscale transition-all">☀️</span>
+                        <span id="inv-cloud" title="Kristal Awan" class="opacity-30 grayscale transition-all">☁️</span>
+                        <span id="inv-stone" title="Batu Sungai" class="opacity-30 grayscale transition-all">🌊</span>
+                        <span id="inv-seed" title="Benih Pohon" class="opacity-30 grayscale transition-all">🌱</span>
+                    </div>
+                </div>
+                <button onclick="toggleAudio()" id="btn-audio" class="p-2 rounded-xl bg-slate-800 text-sky-300 hover:bg-slate-700 border border-slate-700">
+                    🔊
+                </button>
+            </div>
+
+        </div>
+    </header>
+
+    <main id="app-container" class="flex-grow flex items-center justify-center p-3 sm:p-6 relative">
+
+        <!-- ========================================== -->
+        <!-- SCREEN 1: HALAMAN PEMBUKA (WELCOME SCREEN) -->
+        <!-- ========================================== -->
+        <section id="screen-welcome" class="w-full max-w-4xl glass-panel rounded-3xl p-6 md:p-10 shadow-2xl relative overflow-hidden text-center my-auto">
+            <!-- Animated Nature Background Elements -->
+            <div class="absolute -top-10 -left-10 w-40 h-40 bg-sky-300/30 rounded-full blur-2xl"></div>
+            <div class="absolute top-1/2 -right-10 w-48 h-48 bg-amber-300/20 rounded-full blur-2xl"></div>
+            
+            <div class="relative z-10 flex flex-col items-center">
+                <!-- Water Cycle Scene Graphic Header -->
+                <div class="flex justify-center items-center gap-3 sm:gap-6 mb-4 flex-wrap text-3xl sm:text-5xl">
+                    <span class="animate-pulse">☀️</span>
+                    <span class="animate-bounce">☁️</span>
+                    <span class="animate-bounce" style="animation-delay: 0.2s">🌧️</span>
+                    <span class="animate-pulse" style="animation-delay: 0.4s">🌳</span>
+                    <span>🏞️</span>
+                    <span>🌊</span>
+                </div>
+
+                <!-- Title & Tagline -->
+                <div class="inline-block bg-sky-100 border border-sky-300 text-sky-800 font-bold px-4 py-1.5 rounded-full text-xs sm:text-sm tracking-wider uppercase mb-3 shadow-sm">
+                    Game Edukasi Daur Air SD Kelas 5
+                </div>
+                <h1 class="text-3xl sm:text-5xl md:text-6xl font-extrabold text-sky-900 leading-tight mb-2 font-fun">
+                    💧 JEJAK PETUALANGAN AQUA
+                </h1>
+                <p class="text-lg sm:text-2xl font-bold text-sky-600 mb-6 font-fun">
+                    Misi Menyelamatkan Daur Air
+                </p>
+
+                <!-- Aqua Mascot Mascot Visual -->
+                <div class="relative mb-6 group cursor-pointer" onclick="playSfx('click')">
+                    <div class="w-32 h-32 sm:w-40 sm:h-40 bg-sky-400/20 rounded-full flex items-center justify-center border-4 border-sky-400/40 shadow-inner animate-float mx-auto">
+                        <svg class="w-24 h-24 sm:w-28 sm:h-28 drop-shadow-md" viewBox="0 0 100 120" fill="none">
+                            <path d="M50 10 C50 10 90 60 90 85 C90 105 72 115 50 115 C28 115 10 105 10 85 C10 60 50 10 50 10 Z" fill="#0ea5e9"/>
+                            <path d="M45 25 C45 25 75 60 75 80 C75 95 65 100 50 100 C35 100 25 90 25 80 Z" fill="#38bdf8" opacity="0.6"/>
+                            <!-- Eyes -->
+                            <circle cx="38" cy="70" r="6" fill="#0f172a"/>
+                            <circle cx="62" cy="70" r="6" fill="#0f172a"/>
+                            <circle cx="40" cy="68" r="2.5" fill="#ffffff"/>
+                            <circle cx="64" cy="68" r="2.5" fill="#ffffff"/>
+                            <!-- Blushing -->
+                            <ellipse cx="30" cy="78" rx="4" ry="2.5" fill="#f43f5e" opacity="0.6"/>
+                            <ellipse cx="70" cy="78" rx="4" ry="2.5" fill="#f43f5e" opacity="0.6"/>
+                            <!-- Cute Smile -->
+                            <path d="M43 82 Q50 90 57 82" stroke="#0f172a" stroke-width="3" stroke-linecap="round" fill="none"/>
+                        </svg>
+                    </div>
+                    <span class="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-white text-sky-700 text-xs font-bold px-3 py-1 rounded-full border border-sky-200 shadow-md">
+                        Halo! Aku Aqua! 💧
+                    </span>
+                </div>
+
+                <!-- Intro Narrative Card -->
+                <div class="bg-white/90 border-2 border-sky-200 rounded-2xl p-4 sm:p-5 max-w-xl shadow-md mb-8">
+                    <p class="text-sm sm:text-base text-slate-700 leading-relaxed italic">
+                        "Aqua kehilangan jejak perjalanan pulangnya! Bantu Aqua melewati berbagai tantangan dan kembalikan keseimbangan daur air di Bumi!"
+                    </p>
+                </div>
+
+                <!-- CTA Buttons -->
+                <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+                    <button onclick="startGame()" class="btn-bounce bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-black text-lg px-8 py-4 rounded-2xl shadow-xl border-b-4 border-blue-800 flex items-center justify-center gap-3">
+                        <span>▶️</span> MULAI PETUALANGAN
+                    </button>
+                    <button onclick="downloadProjectZip()" class="btn-bounce bg-emerald-500 hover:bg-emerald-400 text-white font-bold text-base px-6 py-4 rounded-2xl shadow-md border-b-4 border-emerald-700 flex items-center justify-center gap-2">
+                        <span>📦</span> Unduh ZIP
+                    </button>
+                    <button onclick="openModal('modal-instructions')" class="btn-bounce bg-amber-400 hover:bg-amber-300 text-amber-950 font-bold text-base px-6 py-4 rounded-2xl shadow-md border-b-4 border-amber-600 flex items-center justify-center gap-2">
+                        <span>📖</span> Petunjuk
+                    </button>
+                    <button onclick="openModal('modal-about')" class="btn-bounce bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold text-base px-6 py-4 rounded-2xl shadow-md border-b-4 border-slate-400 flex items-center justify-center gap-2">
+                        <span>ℹ️</span> Tentang Game
+                    </button>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ========================================== -->
+        <!-- SCREEN 2: PETA PETUALANGAN (ADVENTURE MAP) -->
+        <!-- ========================================== -->
+        <section id="screen-map" class="hidden w-full max-w-5xl glass-dark rounded-3xl p-5 sm:p-8 shadow-2xl relative">
+            <div class="text-center mb-6">
+                <h2 class="text-2xl sm:text-4xl font-extrabold text-white font-fun tracking-wide flex items-center justify-center gap-2">
+                    🗺️ PETA SIKLUS DAUR AIR AQUA
+                </h2>
+                <p class="text-xs sm:text-sm text-sky-200 mt-1">
+                    Pilih level yang terbuka untuk melanjutkan perjalanan Aqua kembali ke laut!
+                </p>
+            </div>
+
+            <!-- Map Node Grid Container -->
+            <div class="relative bg-slate-800/90 rounded-2xl p-4 sm:p-6 border border-sky-500/30 overflow-hidden min-h-[460px] flex flex-col justify-between">
+                <!-- Background Map Illustrative Lines/Paths -->
+                <svg class="absolute inset-0 w-full h-full opacity-20 pointer-events-none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M 100 80 Q 250 50 400 120 T 700 80 T 800 250 T 500 350 T 200 420" stroke="#38bdf8" stroke-width="6" fill="none" stroke-dasharray="10 8"/>
+                </svg>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-3 gap-4 sm:gap-6 relative z-10">
+                    <!-- LEVEL 1 -->
+                    <div id="map-node-1" onclick="enterLevel(1)" class="map-node bg-slate-900 border-2 border-sky-400/80 rounded-2xl p-4 flex items-center gap-3 cursor-pointer hover:border-amber-400 transition-all shadow-md">
+                        <div class="text-3xl bg-sky-950 p-2 rounded-xl border border-sky-500/40">🌊</div>
+                        <div class="flex-grow">
+                            <div class="flex justify-between items-center">
+                                <span class="text-[10px] font-bold text-sky-400 uppercase tracking-wider">LEVEL 1</span>
+                                <span class="map-status text-xs font-bold px-2 py-0.5 rounded-full bg-sky-500/20 text-sky-300">🔓 Terbuka</span>
+                            </div>
+                            <h3 class="text-white font-bold text-sm font-fun">GERBANG LAUT</h3>
+                        </div>
+                    </div>
+
+                    <!-- LEVEL 2 -->
+                    <div id="map-node-2" onclick="enterLevel(2)" class="map-node bg-slate-900 border-2 border-slate-700 opacity-60 rounded-2xl p-4 flex items-center gap-3 cursor-not-allowed transition-all shadow-md">
+                        <div class="text-3xl bg-amber-950 p-2 rounded-xl border border-amber-500/40">☀️</div>
+                        <div class="flex-grow">
+                            <div class="flex justify-between items-center">
+                                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">LEVEL 2</span>
+                                <span class="map-status text-xs font-bold px-2 py-0.5 rounded-full bg-slate-800 text-slate-400">🔒 Belum terbuka</span>
+                            </div>
+                            <h3 class="text-white font-bold text-sm font-fun">ZONA PENGUAPAN</h3>
+                        </div>
+                    </div>
+
+                    <!-- LEVEL 3 -->
+                    <div id="map-node-3" onclick="enterLevel(3)" class="map-node bg-slate-900 border-2 border-slate-700 opacity-60 rounded-2xl p-4 flex items-center gap-3 cursor-not-allowed transition-all shadow-md">
+                        <div class="text-3xl bg-slate-800 p-2 rounded-xl border border-slate-500/40">☁️</div>
+                        <div class="flex-grow">
+                            <div class="flex justify-between items-center">
+                                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">LEVEL 3</span>
+                                <span class="map-status text-xs font-bold px-2 py-0.5 rounded-full bg-slate-800 text-slate-400">🔒 Belum terbuka</span>
+                            </div>
+                            <h3 class="text-white font-bold text-sm font-fun">KOTA AWAN</h3>
+                        </div>
+                    </div>
+
+                    <!-- LEVEL 4 -->
+                    <div id="map-node-4" onclick="enterLevel(4)" class="map-node bg-slate-900 border-2 border-slate-700 opacity-60 rounded-2xl p-4 flex items-center gap-3 cursor-not-allowed transition-all shadow-md">
+                        <div class="text-3xl bg-blue-950 p-2 rounded-xl border border-blue-500/40">🌧️</div>
+                        <div class="flex-grow">
+                            <div class="flex justify-between items-center">
+                                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">LEVEL 4</span>
+                                <span class="map-status text-xs font-bold px-2 py-0.5 rounded-full bg-slate-800 text-slate-400">🔒 Belum terbuka</span>
+                            </div>
+                            <h3 class="text-white font-bold text-sm font-fun">HUJAN MISTERIUS</h3>
+                        </div>
+                    </div>
+
+                    <!-- LEVEL 5 -->
+                    <div id="map-node-5" onclick="enterLevel(5)" class="map-node bg-slate-900 border-2 border-slate-700 opacity-60 rounded-2xl p-4 flex items-center gap-3 cursor-not-allowed transition-all shadow-md">
+                        <div class="text-3xl bg-emerald-950 p-2 rounded-xl border border-emerald-500/40">🌱</div>
+                        <div class="flex-grow">
+                            <div class="flex justify-between items-center">
+                                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">LEVEL 5</span>
+                                <span class="map-status text-xs font-bold px-2 py-0.5 rounded-full bg-slate-800 text-slate-400">🔒 Belum terbuka</span>
+                            </div>
+                            <h3 class="text-white font-bold text-sm font-fun">HUTAN RAHASIA</h3>
+                        </div>
+                    </div>
+
+                    <!-- LEVEL 6 -->
+                    <div id="map-node-6" onclick="enterLevel(6)" class="map-node bg-slate-900 border-2 border-slate-700 opacity-60 rounded-2xl p-4 flex items-center gap-3 cursor-not-allowed transition-all shadow-md">
+                        <div class="text-3xl bg-cyan-950 p-2 rounded-xl border border-cyan-500/40">🏞️</div>
+                        <div class="flex-grow">
+                            <div class="flex justify-between items-center">
+                                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">LEVEL 6</span>
+                                <span class="map-status text-xs font-bold px-2 py-0.5 rounded-full bg-slate-800 text-slate-400">🔒 Belum terbuka</span>
+                            </div>
+                            <h3 class="text-white font-bold text-sm font-fun">LABIRIN SUNGAI</h3>
+                        </div>
+                    </div>
+
+                    <!-- LEVEL 7 -->
+                    <div id="map-node-7" onclick="enterLevel(7)" class="map-node bg-slate-900 border-2 border-slate-700 opacity-60 rounded-2xl p-4 flex items-center gap-3 cursor-not-allowed transition-all shadow-md">
+                        <div class="text-3xl bg-rose-950 p-2 rounded-xl border border-rose-500/40">🚨</div>
+                        <div class="flex-grow">
+                            <div class="flex justify-between items-center">
+                                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">LEVEL 7</span>
+                                <span class="map-status text-xs font-bold px-2 py-0.5 rounded-full bg-slate-800 text-slate-400">🔒 Belum terbuka</span>
+                            </div>
+                            <h3 class="text-white font-bold text-sm font-fun">KOTA DALAM BAHAYA</h3>
+                        </div>
+                    </div>
+
+                    <!-- LEVEL 8 -->
+                    <div id="map-node-8" onclick="enterLevel(8)" class="map-node bg-slate-900 border-2 border-slate-700 opacity-60 rounded-2xl p-4 flex items-center gap-3 cursor-not-allowed transition-all shadow-md">
+                        <div class="text-3xl bg-indigo-950 p-2 rounded-xl border border-indigo-500/40">🌊</div>
+                        <div class="flex-grow">
+                            <div class="flex justify-between items-center">
+                                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">LEVEL 8</span>
+                                <span class="map-status text-xs font-bold px-2 py-0.5 rounded-full bg-slate-800 text-slate-400">🔒 Belum terbuka</span>
+                            </div>
+                            <h3 class="text-white font-bold text-sm font-fun">KEMBALI KE LAUT</h3>
+                        </div>
+                    </div>
+
+                    <!-- LEVEL 9: FINAL -->
+                    <div id="map-node-9" onclick="enterLevel(9)" class="map-node bg-slate-900 border-2 border-slate-700 opacity-60 rounded-2xl p-4 flex items-center gap-3 cursor-not-allowed transition-all shadow-md">
+                        <div class="text-3xl bg-yellow-950 p-2 rounded-xl border border-yellow-500/40">👑</div>
+                        <div class="flex-grow">
+                            <div class="flex justify-between items-center">
+                                <span class="text-[10px] font-bold text-yellow-400 uppercase tracking-wider">FINAL CHALLENGE</span>
+                                <span class="map-status text-xs font-bold px-2 py-0.5 rounded-full bg-slate-800 text-slate-400">🔒 Belum terbuka</span>
+                            </div>
+                            <h3 class="text-white font-bold text-sm font-fun">SELAMATKAN DAUR AIR</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6 text-center">
+                    <button onclick="resetGameProgress()" class="text-xs text-slate-400 hover:text-rose-400 underline transition-colors">
+                        🔄 Reset Kemajuan Game
+                    </button>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ========================================== -->
+        <!-- SCREEN 3: DYNAMIC GAMEPLAY LEVEL CONTAINER -->
+        <!-- ========================================== -->
+        <section id="screen-game" class="hidden w-full max-w-4xl glass-panel rounded-3xl p-5 sm:p-8 shadow-2xl relative min-h-[500px] flex flex-col justify-between">
+            
+            <!-- Narrative Card Banner -->
+            <div id="level-header" class="bg-sky-900 text-white p-4 sm:p-5 rounded-2xl shadow-md border border-sky-700 mb-5 relative">
+                <div class="flex items-start gap-3">
+                    <span id="level-badge-icon" class="text-3xl sm:text-4xl">🌊</span>
+                    <div class="flex-grow">
+                        <h2 id="level-title" class="text-xl sm:text-2xl font-bold font-fun text-sky-200">
+                            LEVEL 1 — GERBANG LAUT
+                        </h2>
+                        <p id="level-narrative" class="text-xs sm:text-sm text-sky-100 mt-1 leading-relaxed">
+                            "Perjalanan Aqua dimulai dari sumber air yang sangat luas. Temukan tempat Aqua memulai perjalanannya!"
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dynamic Interactive Challenge Area -->
+            <div id="challenge-area" class="flex-grow flex flex-col items-center justify-center my-2">
+                <!-- Level specific HTML content will be dynamically injected here -->
+            </div>
+
+            <!-- Level Bottom Feedback Banner -->
+            <div id="feedback-banner" class="hidden mt-4 p-4 rounded-xl text-center font-bold text-sm sm:text-base animate-bounce-slow">
+                <!-- Message injected via JS -->
+            </div>
+
+        </section>
+
+
+        <!-- ========================================== -->
+        <!-- SCREEN 4: HALAMAN HASIL (RESULT SCREEN)    -->
+        <!-- ========================================== -->
+        <section id="screen-result" class="hidden w-full max-w-3xl glass-panel rounded-3xl p-6 sm:p-10 shadow-2xl text-center my-auto">
+            <div class="text-5xl sm:text-7xl mb-2 animate-bounce">🏆</div>
+            <h1 class="text-3xl sm:text-5xl font-black text-sky-900 font-fun mb-1">
+                PETUALANGAN SELESAI!
+            </h1>
+            <p class="text-base sm:text-xl font-bold text-amber-600 mb-6 font-fun">
+                Selamat, Penjelajah Air Sejati!
+            </p>
+
+            <!-- User Badge / Gelar Banner -->
+            <div class="bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 text-amber-950 p-4 sm:p-6 rounded-2xl border-4 border-white shadow-xl mb-6 max-w-md mx-auto">
+                <span class="text-xs font-bold uppercase tracking-wider block text-amber-900 mb-1">Gelar Kamu:</span>
+                <h3 id="result-badge-title" class="text-2xl sm:text-4xl font-extrabold font-fun">
+                    👑 Penjaga Siklus Air
+                </h3>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-xl mx-auto mb-8">
+                <div class="bg-white/90 p-3 rounded-2xl border border-sky-200 shadow-sm">
+                    <span class="text-2xl block mb-1">⭐</span>
+                    <span class="text-xs text-slate-500 font-bold block">Total Skor</span>
+                    <span id="result-score" class="text-xl font-extrabold text-sky-600 font-fun">180</span>
+                </div>
+                <div class="bg-white/90 p-3 rounded-2xl border border-sky-200 shadow-sm">
+                    <span class="text-2xl block mb-1">💧</span>
+                    <span class="text-xs text-slate-500 font-bold block">Sisa Nyawa</span>
+                    <span id="result-lives" class="text-xl font-extrabold text-sky-600 font-fun">3 / 3</span>
+                </div>
+                <div class="bg-white/90 p-3 rounded-2xl border border-sky-200 shadow-sm">
+                    <span class="text-2xl block mb-1">🎒</span>
+                    <span class="text-xs text-slate-500 font-bold block">Item Dikumpulkan</span>
+                    <span id="result-items" class="text-xl font-extrabold text-sky-600 font-fun">5 / 5</span>
+                </div>
+                <div class="bg-white/90 p-3 rounded-2xl border border-sky-200 shadow-sm">
+                    <span class="text-2xl block mb-1">🔓</span>
+                    <span class="text-xs text-slate-500 font-bold block">Level Selesai</span>
+                    <span id="result-levels" class="text-xl font-extrabold text-sky-600 font-fun">9 / 9</span>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap gap-3 justify-center">
+                <button onclick="resetGameProgress()" class="btn-bounce bg-sky-500 hover:bg-sky-400 text-white font-bold px-6 py-3 rounded-2xl shadow-lg border-b-4 border-sky-700 flex items-center gap-2">
+                    🔄 MAIN LAGI
+                </button>
+                <button onclick="goToMap()" class="btn-bounce bg-amber-400 hover:bg-amber-300 text-amber-950 font-bold px-6 py-3 rounded-2xl shadow-lg border-b-4 border-amber-600 flex items-center gap-2">
+                    🗺️ LIHAT PETA
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+
+    <!-- MODAL: PETUNJUK GAME -->
+    <div id="modal-instructions" class="hidden fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="glass-panel w-full max-w-xl rounded-3xl p-6 shadow-2xl relative border-2 border-sky-300 max-h-[90vh] overflow-y-auto">
+            <button onclick="closeModal('modal-instructions')" class="absolute top-4 right-4 text-2xl text-slate-500 hover:text-slate-800">✖</button>
+            <h2 class="text-2xl font-bold text-sky-900 font-fun mb-4 flex items-center gap-2">
+                📖 Petunjuk Permainan
+            </h2>
+            <div class="space-y-3 text-sm text-slate-700 leading-relaxed">
+                <div class="bg-sky-50 p-3 rounded-xl border border-sky-200">
+                    <strong class="text-sky-800 block mb-1">❤️ Nyawa & Kesempatan:</strong>
+                    Kamu memiliki 3 tetes air nyawa. Setiap kali salah menjawab, kamu kehilangan 1 nyawa. Jika nyawa habis, kamu harus mengulangi level!
+                </div>
+                <div class="bg-amber-50 p-3 rounded-xl border border-amber-200">
+                    <strong class="text-amber-800 block mb-1">⭐ Perolehan Skor:</strong>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li>Jawaban Benar Standar: <strong>+10 poin</strong></li>
+                        <li>Menyelesaikan Mini Challenge: <strong>+20 poin</strong></li>
+                        <li>Tantangan Pemecahan Masalah (HOTS): <strong>+30 poin</strong></li>
+                        <li>Final Challenge: <strong>+50 poin</strong></li>
+                    </ul>
+                </div>
+                <div class="bg-emerald-50 p-3 rounded-xl border border-emerald-200">
+                    <strong class="text-emerald-800 block mb-1">🎒 Koleksi Benda (Inventory):</strong>
+                    Dapatkan benda-benda ajaib seperti 💧 Tetes Air, ☀️ Energi Matahari, ☁️ Kristal Awan, 🌊 Batu Sungai, dan 🌱 Benih Pohon setiap menyelesaikan misi tertentu!
+                </div>
+            </div>
+            <button onclick="closeModal('modal-instructions')" class="mt-6 w-full btn-bounce bg-sky-500 hover:bg-sky-400 text-white font-bold py-3 rounded-xl shadow-md">
+                Saya Mengerti, Ayo Main!
+            </button>
+        </div>
     </div>
-  </div>
-</nav>
 
-<header class="hero">
-  <div class="wrap">
-    <svg class="rings" viewBox="0 0 150 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <circle cx="55" cy="50" r="42" fill="var(--mutual)"/>
-      <circle cx="95" cy="50" r="42" fill="var(--commensal)"/>
-    </svg>
-    <h1>Simbiosis</h1>
-    <p class="lede">Di alam, jarang ada makhluk hidup yang benar-benar sendirian. Setiap hari, spesies yang berbeda hidup berdampingan, saling membutuhkan, atau bahkan saling memanfaatkan — inilah yang disebut simbiosis.</p>
-  </div>
-</header>
-
-<section id="materi">
-  <div class="wrap">
-    <div class="section-head">
-      <h2>Materi</h2>
-      <p>Simbiosis adalah hubungan atau interaksi erat antara dua jenis makhluk hidup berbeda yang hidup bersama. Berdasarkan untung-rugi bagi kedua pihak, simbiosis dibedakan menjadi tiga jenis utama.</p>
+    <!-- MODAL: TENTANG GAME -->
+    <div id="modal-about" class="hidden fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="glass-panel w-full max-w-md rounded-3xl p-6 shadow-2xl relative border-2 border-sky-300 text-center">
+            <button onclick="closeModal('modal-about')" class="absolute top-4 right-4 text-2xl text-slate-500 hover:text-slate-800">✖</button>
+            <div class="text-4xl mb-2">🎓</div>
+            <h2 class="text-2xl font-bold text-sky-900 font-fun mb-2">Tentang Game Ini</h2>
+            <p class="text-xs text-sky-700 font-bold mb-4">Media Pembelajaran Interaktif IPA SD Kelas 5</p>
+            <p class="text-sm text-slate-700 mb-4 leading-relaxed">
+                Game edukasi ini dirancang khusus untuk memfasilitasi pemahaman konsep <strong>Daur Air (Siklus Hidrologi)</strong> melalui pengalaman petualangan eksploratif, tantangan interaktif, serta soal HOTS.
+            </p>
+            <div class="text-xs text-slate-500 bg-slate-100 p-3 rounded-xl border border-slate-200">
+                Materi: Daur Air (Evaporasi, Kondensasi, Presipitasi, Infiltrasi, Dampak Lingkungan)
+            </div>
+            <button onclick="closeModal('modal-about')" class="mt-5 w-full btn-bounce bg-sky-500 hover:bg-sky-400 text-white font-bold py-2.5 rounded-xl">
+                Tutup
+            </button>
+        </div>
     </div>
 
-    <div class="type-card mutual">
-      <div class="type-head">
-        <h3>Mutualisme</h3>
-        <span class="type-tag">untung + untung</span>
-      </div>
-      <p class="def">Kedua makhluk hidup yang berinteraksi sama-sama memperoleh keuntungan. Hubungan ini bersifat saling menguntungkan tanpa ada pihak yang dirugikan.</p>
-      <div class="examples">
-        <span>🐝 Lebah &amp; bunga</span>
-        <span>🐃 Burung jalak &amp; kerbau</span>
-        <span>🐟 Ikan badut &amp; anemon laut</span>
-        <span>🌱 Bakteri Rhizobium &amp; akar kacang-kacangan</span>
-      </div>
+    <!-- MODAL: RETRY / GAME OVER -->
+    <div id="modal-retry" class="hidden fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-slate-900 border-2 border-rose-500/80 w-full max-w-md rounded-3xl p-6 shadow-2xl text-center text-white">
+            <div class="text-6xl mb-2 animate-bounce">🥀</div>
+            <h2 class="text-3xl font-extrabold text-rose-400 font-fun mb-1">NYAWA HABIS!</h2>
+            <p class="text-sm text-slate-300 mb-6">
+                Aqua kelelahan dan membutuhkan energi baru untuk melanjutkan perjalanan. Jangan berkecil hati, ayo coba lagi!
+            </p>
+            <button onclick="retryLevel()" class="w-full btn-bounce bg-rose-500 hover:bg-rose-400 text-white font-extrabold py-3.5 rounded-2xl shadow-xl flex items-center justify-center gap-2">
+                <span>🔄</span> ULANGI LEVEL
+            </button>
+        </div>
     </div>
 
-    <div class="type-card commensal">
-      <div class="type-head">
-        <h3>Komensalisme</h3>
-        <span class="type-tag">untung + netral</span>
-      </div>
-      <p class="def">Satu pihak memperoleh keuntungan, sedangkan pihak lain tidak dirugikan maupun diuntungkan — hidupnya berjalan seperti biasa, seolah tidak terpengaruh.</p>
-      <div class="examples">
-        <span>🐠 Ikan remora &amp; hiu</span>
-        <span>🌸 Anggrek &amp; pohon inang</span>
-        <span>🌿 Tumbuhan paku &amp; pohon besar</span>
-      </div>
-    </div>
 
-    <div class="type-card parasite">
-      <div class="type-head">
-        <h3>Parasitisme</h3>
-        <span class="type-tag">untung + rugi</span>
-      </div>
-      <p class="def">Satu pihak (parasit) diuntungkan dengan mengambil nutrisi atau sumber daya dari pihak lain (inang), sementara inangnya dirugikan — bisa melemah, sakit, bahkan mati.</p>
-      <div class="examples">
-        <span>🪴 Benalu &amp; pohon inang</span>
-        <span>🪱 Cacing pita &amp; manusia</span>
-        <span>🦟 Nyamuk &amp; manusia</span>
-        <span>🐛 Kutu &amp; anjing</span>
-      </div>
-      <p class="note">Selain tiga jenis di atas, ada juga istilah <em>amensalisme</em> (satu pihak dirugikan, satu pihak tidak terpengaruh) dan <em>netralisme</em> (kedua pihak tidak saling memengaruhi), yang kadang dibahas sebagai perluasan konsep simbiosis.</p>
-    </div>
-  </div>
-</section>
+    <script>
+        /* UI SCREEN NAVIGATION & MANAGER */
+        function updateHUD() {
+            document.getElementById('hud-score').innerText = state.score;
+            
+            // Render Hearts
+            let heartsHtml = '';
+            for (let i = 0; i < 3; i++) {
+                if (i < state.lives) {
+                    heartsHtml += '<span class="animate-bounce-slow">💧</span>';
+                } else {
+                    heartsHtml += '<span class="opacity-20 grayscale">💧</span>';
+                }
+            }
+            document.getElementById('hud-lives').innerHTML = heartsHtml;
 
-<section id="latihan">
-  <div class="wrap">
-    <div class="section-head">
-      <h2>Latihan Soal</h2>
-      <p>Uji pemahamanmu tentang jenis-jenis simbiosis lewat 8 soal pilihan ganda berikut.</p>
-    </div>
+            // Render Inventory icons highlight
+            document.getElementById('inv-drop').className = state.inventory.water_drop ? 'opacity-100 scale-110 transition-all' : 'opacity-30 grayscale transition-all';
+            document.getElementById('inv-sun').className = state.inventory.sun_energy ? 'opacity-100 scale-110 transition-all' : 'opacity-30 grayscale transition-all';
+            document.getElementById('inv-cloud').className = state.inventory.cloud_crystal ? 'opacity-100 scale-110 transition-all' : 'opacity-30 grayscale transition-all';
+            document.getElementById('inv-stone').className = state.inventory.river_stone ? 'opacity-100 scale-110 transition-all' : 'opacity-30 grayscale transition-all';
+            document.getElementById('inv-seed').className = state.inventory.tree_seed ? 'opacity-100 scale-110 transition-all' : 'opacity-30 grayscale transition-all';
+        }
 
-    <div class="quiz-card" id="quizCard">
-      <div id="quizBody"></div>
-    </div>
-  </div>
-</section>
+        function showScreen(screenId) {
+            document.getElementById('screen-welcome').classList.add('hidden');
+            document.getElementById('screen-map').classList.add('hidden');
+            document.getElementById('screen-game').classList.add('hidden');
+            document.getElementById('screen-result').classList.add('hidden');
 
-<footer>Materi &amp; latihan soal simbiosis — untuk belajar mandiri.</footer>
+            document.getElementById(screenId).classList.remove('hidden');
 
-<script>
-const questions = [
-  {q:"Hubungan antara kupu-kupu dengan bunga, di mana kupu-kupu mendapat nektar dan bunga terbantu penyerbukannya, termasuk contoh simbiosis...", opts:["Mutualisme","Komensalisme","Parasitisme","Netralisme"], correct:0, exp:"Kedua pihak sama-sama diuntungkan: kupu-kupu mendapat makanan, bunga dibantu penyerbukan — ini mutualisme."},
-  {q:"Benalu yang tumbuh menempel pada pohon mangga dan menyerap air serta unsur hara dari pohon tersebut merupakan contoh simbiosis...", opts:["Mutualisme","Komensalisme","Parasitisme","Amensalisme"], correct:2, exp:"Benalu diuntungkan, sedangkan pohon mangga dirugikan karena nutrisinya diserap — ini parasitisme."},
-  {q:"Ikan remora yang menempel pada tubuh hiu untuk mendapatkan sisa makanan, tanpa memberi pengaruh apa pun pada hiu, adalah contoh simbiosis...", opts:["Mutualisme","Komensalisme","Parasitisme","Netralisme"], correct:1, exp:"Remora diuntungkan (sisa makanan), hiu tidak dirugikan maupun diuntungkan — ini komensalisme."},
-  {q:"Ciri utama dari simbiosis mutualisme adalah...", opts:["Salah satu pihak dirugikan","Kedua pihak sama-sama diuntungkan","Satu pihak untung, satu pihak netral","Tidak ada interaksi sama sekali"], correct:1, exp:"Mutualisme selalu menguntungkan kedua belah pihak yang berinteraksi."},
-  {q:"Bakteri Rhizobium yang hidup di akar tanaman kacang-kacangan membantu mengikat nitrogen dari udara, sementara bakteri tersebut mendapat tempat tinggal dan makanan. Ini contoh simbiosis...", opts:["Parasitisme","Komensalisme","Mutualisme","Amensalisme"], correct:2, exp:"Tanaman diuntungkan (nitrogen), bakteri juga diuntungkan (tempat tinggal & makanan) — mutualisme."},
-  {q:"Cacing pita yang hidup di usus manusia dan menyerap sari makanan sehingga inangnya kekurangan gizi, termasuk simbiosis...", opts:["Mutualisme","Komensalisme","Parasitisme","Netralisme"], correct:2, exp:"Cacing pita diuntungkan, manusia sebagai inang dirugikan — ini parasitisme."},
-  {q:"Tumbuhan anggrek yang menempel di batang pohon besar untuk mendapatkan cahaya matahari, tanpa mengganggu pohon tersebut, adalah simbiosis...", opts:["Mutualisme","Komensalisme","Parasitisme","Amensalisme"], correct:1, exp:"Anggrek diuntungkan (posisi & cahaya), pohon inang tidak terpengaruh — ini komensalisme."},
-  {q:"Manakah pasangan yang PALING TEPAT menggambarkan simbiosis parasitisme?", opts:["Burung jalak memakan kutu di punggung kerbau","Nyamuk menghisap darah manusia","Lebah menghisap nektar sambil membantu penyerbukan","Tanaman paku menempel pada pohon tanpa mengganggunya"], correct:1, exp:"Nyamuk diuntungkan (darah sebagai makanan), manusia dirugikan (gatal, berisiko penyakit) — parasitisme."}
-];
+            const topBar = document.getElementById('top-bar');
+            if (screenId === 'screen-welcome') {
+                topBar.classList.add('hidden');
+            } else {
+                topBar.classList.remove('hidden');
+            }
+            updateHUD();
+        }
 
-let current = 0;
-let score = 0;
-let answered = false;
+        function startGame() {
+            playSfx('click');
+            goToMap();
+        }
 
-const body = document.getElementById('quizBody');
+        function goToMap() {
+            playSfx('click');
+            renderMapNodes();
+            showScreen('screen-map');
+        }
 
-function render(){
-  if(current >= questions.length){ renderResult(); return; }
-  answered = false;
-  const item = questions[current];
-  const pct = Math.round((current/questions.length)*100);
-  body.innerHTML = `
-    <div class="quiz-top"><span>Soal ${current+1} dari ${questions.length}</span><span>Skor: ${score}</span></div>
-    <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
-    <p class="q-text">${item.q}</p>
-    <div class="options" id="options"></div>
-    <p class="feedback" id="feedback"></p>
-    <div class="quiz-actions"><button class="next-btn" id="nextBtn">${current === questions.length-1 ? 'Lihat hasil' : 'Soal berikutnya'}</button></div>
-  `;
-  const optsWrap = document.getElementById('options');
-  item.opts.forEach((opt, i) => {
-    const btn = document.createElement('button');
-    btn.className = 'opt-btn';
-    btn.type = 'button';
-    btn.textContent = opt;
-    btn.addEventListener('click', () => selectAnswer(i));
-    optsWrap.appendChild(btn);
-  });
-  document.getElementById('nextBtn').addEventListener('click', () => { current++; render(); });
-}
+        function openModal(id) {
+            playSfx('click');
+            document.getElementById(id).classList.remove('hidden');
+        }
 
-function selectAnswer(i){
-  if(answered) return;
-  answered = true;
-  const item = questions[current];
-  const buttons = document.querySelectorAll('#options .opt-btn');
-  buttons.forEach((b, idx) => {
-    b.disabled = true;
-    if(idx === item.correct) b.classList.add('correct');
-    else if(idx === i) b.classList.add('wrong');
-  });
-  if(i === item.correct) score++;
-  document.getElementById('feedback').textContent = item.exp;
-  document.getElementById('nextBtn').classList.add('show');
-}
+        function closeModal(id) {
+            playSfx('click');
+            document.getElementById(id).classList.add('hidden');
+        }
 
-function renderResult(){
-  const pct = Math.round((score/questions.length)*100);
-  let msg = "Terus berlatih, kamu pasti bisa lebih baik lagi.";
-  if(pct >= 90) msg = "Luar biasa! Pemahamanmu tentang simbiosis sangat kuat.";
-  else if(pct >= 70) msg = "Bagus! Sebagian besar konsep sudah kamu kuasai.";
-  else if(pct >= 50) msg = "Lumayan, coba baca ulang materi lalu ulangi latihan ini.";
-  body.innerHTML = `
-    <div class="result">
-      <div class="score">${score}/${questions.length}</div>
-      <p>${msg}</p>
-      <button class="restart-btn" id="restartBtn">Ulangi latihan</button>
-    </div>
-  `;
-  document.getElementById('restartBtn').addEventListener('click', () => { current=0; score=0; render(); });
-}
+        function toggleAudio() {
+            state.soundEnabled = !state.soundEnabled;
+            document.getElementById('btn-audio').innerText = state.soundEnabled ? '🔊' : '🔇';
+            playSfx('click');
+        }
 
-render();
-</script>
+        function resetGameProgress() {
+            playSfx('click');
+            state.score = 0;
+            state.lives = 3;
+            state.currentLevel = 1;
+            state.unlockedLevel = 1;
+            state.completedLevels = [];
+            state.inventory = { water_drop: false, sun_energy: false, cloud_crystal: false, river_stone: false, tree_seed: false };
+            goToMap();
+        }
+
+        function handleWrongAnswer(customMsg) {
+            playSfx('wrong');
+            state.lives -= 1;
+            updateHUD();
+
+            const banner = document.getElementById('feedback-banner');
+            banner.className = 'mt-4 p-4 rounded-xl text-center font-bold text-sm sm:text-base bg-rose-100 text-rose-800 border border-rose-300 block animate-bounce-slow';
+            banner.innerText = customMsg || 'Belum tepat. Coba perhatikan kembali dan pilih lagi!';
+
+            if (state.lives <= 0) {
+                setTimeout(() => {
+                    document.getElementById('modal-retry').classList.remove('hidden');
+                }, 1000);
+            }
+        }
+
+        function retryLevel() {
+            playSfx('click');
+            state.lives = 3;
+            document.getElementById('modal-retry').classList.add('hidden');
+            enterLevel(state.currentLevel);
+        }
+
+        function renderMapNodes() {
+            const levelTitles = [
+                'GERBANG LAUT', 'ZONA PENGUAPAN', 'KOTA AWAN', 'HUJAN MISTERIUS',
+                'HUTAN RAHASIA', 'LABIRIN SUNGAI', 'KOTA DALAM BAHAYA', 'KEMBALI KE LAUT', 'SELAMATKAN DAUR AIR'
+            ];
+
+            for (let i = 1; i <= 9; i++) {
+                const node = document.getElementById(`map-node-${i}`);
+                if (!node) continue;
+
+                const statusSpan = node.querySelector('.map-status');
+
+                if (state.completedLevels.includes(i)) {
+                    node.className = "map-node bg-emerald-950 border-2 border-emerald-400 rounded-2xl p-4 flex items-center gap-3 cursor-pointer hover:scale-105 transition-all shadow-md";
+                    statusSpan.className = "map-status text-xs font-bold px-2 py-0.5 rounded-full bg-emerald-500/30 text-emerald-300";
+                    statusSpan.innerText = "✅ Selesai";
+                } else if (i <= state.unlockedLevel) {
+                    node.className = "map-node bg-slate-900 border-2 border-sky-400 rounded-2xl p-4 flex items-center gap-3 cursor-pointer hover:scale-105 transition-all shadow-md";
+                    statusSpan.className = "map-status text-xs font-bold px-2 py-0.5 rounded-full bg-sky-500/20 text-sky-300";
+                    statusSpan.innerText = "🔓 Terbuka";
+                } else {
+                    node.className = "map-node bg-slate-900/60 border-2 border-slate-700 opacity-60 rounded-2xl p-4 flex items-center gap-3 cursor-not-allowed transition-all shadow-md";
+                    statusSpan.className = "map-status text-xs font-bold px-2 py-0.5 rounded-full bg-slate-800 text-slate-400";
+                    statusSpan.innerText = "🔒 Belum terbuka";
+                }
+            }
+        }
+
+        function enterLevel(levelNum) {
+            if (levelNum > state.unlockedLevel && !state.completedLevels.includes(levelNum)) {
+                playSfx('wrong');
+                return;
+            }
+
+            playSfx('click');
+            state.currentLevel = levelNum;
+            document.getElementById('feedback-banner').className = 'hidden';
+            showScreen('screen-game');
+
+            // Render Level Content
+            switch(levelNum) {
+                case 1: renderLevel1(); break;
+                case 2: renderLevel2(); break;
+                case 3: renderLevel3(); break;
+                case 4: renderLevel4(); break;
+                case 5: renderLevel5(); break;
+                case 6: renderLevel6(); break;
+                case 7: renderLevel7(); break;
+                case 8: renderLevel8(); break;
+                case 9: renderLevel9(); break;
+            }
+        }
+
+        function completeLevel(points, itemKey) {
+            playSfx('correct');
+            state.score += points;
+
+            if (itemKey) {
+                state.inventory[itemKey] = true;
+                playSfx('item');
+            }
+
+            if (!state.completedLevels.includes(state.currentLevel)) {
+                state.completedLevels.push(state.currentLevel);
+            }
+
+            if (state.currentLevel + 1 <= 9) {
+                state.unlockedLevel = Math.max(state.unlockedLevel, state.currentLevel + 1);
+            }
+
+            updateHUD();
+
+            const banner = document.getElementById('feedback-banner');
+            banner.className = 'mt-4 p-4 rounded-xl text-center font-bold text-sm sm:text-base bg-emerald-100 text-emerald-900 border border-emerald-300 block';
+            
+            let itemText = itemKey ? ` Dapatkan item baru: +${points} Poin!` : ` +${points} Poin!`;
+            banner.innerHTML = `
+                <div class="mb-2">🎉 Hore! Kamu Berhasil Menyelesaikan Misi Ini!${itemText}</div>
+                <button onclick="${state.currentLevel === 9 ? 'showResults()' : 'enterLevel(' + (state.currentLevel + 1) + ')'}" class="btn-bounce bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold px-6 py-2.5 rounded-xl shadow-md">
+                    ${state.currentLevel === 9 ? '🏆 LIHAT HASIL AKHIR' : 'LANJUT KE LEVEL BERIKUTNYA ➔'}
+                </button>
+            `;
+        }
+
+        function showResults() {
+            playSfx('fanfare');
+            confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
+
+            document.getElementById('result-score').innerText = state.score;
+            document.getElementById('result-lives').innerText = `${state.lives} / 3`;
+
+            let itemCount = Object.values(state.inventory).filter(Boolean).length;
+            document.getElementById('result-items').innerText = `${itemCount} / 5`;
+            document.getElementById('result-levels').innerText = `${state.completedLevels.length} / 9`;
+
+            // Calculate Gelar
+            let badgeTitle = '';
+            if (state.score <= 50) badgeTitle = '💧 Penjelajah Pemula';
+            else if (state.score <= 100) badgeTitle = '🌱 Penjaga Air';
+            else if (state.score <= 150) badgeTitle = '🌊 Ahli Daur Air';
+            else badgeTitle = '👑 Penjaga Siklus Air';
+
+            document.getElementById('result-badge-title').innerText = badgeTitle;
+            showScreen('screen-result');
+        }
+
+
+
+        // ==========================================
+        // LEVEL 1: GERBANG LAUT
+        // ==========================================
+        function renderLevel1() {
+            document.getElementById('hud-level-title').innerText = "Level 1: Gerbang Laut";
+            document.getElementById('level-badge-icon').innerText = "🌊";
+            document.getElementById('level-title').innerText = "🌊 LEVEL 1 — GERBANG LAUT";
+            document.getElementById('level-narrative').innerText = '"Perjalanan Aqua dimulai dari sumber air yang sangat luas. Temukan tempat Aqua memulai perjalanannya!"';
+
+            const challenge = document.getElementById('challenge-area');
+            challenge.innerHTML = `
+                <div class="w-full max-w-xl text-center">
+                    <p class="font-bold text-slate-800 text-base sm:text-lg mb-4">
+                        Di manakah sumber air terbesar di bumi tempat Aqua memulai daur air?
+                    </p>
+                    <div class="grid grid-cols-2 gap-4">
+                        <button onclick="checkL1('A')" class="btn-bounce bg-white border-2 border-sky-200 hover:border-sky-500 p-4 rounded-2xl shadow-md text-slate-800 font-bold flex flex-col items-center gap-2">
+                            <span class="text-4xl">🏠</span>
+                            <span>A. Rumah</span>
+                        </button>
+                        <button onclick="checkL1('B')" class="btn-bounce bg-white border-2 border-sky-200 hover:border-sky-500 p-4 rounded-2xl shadow-md text-slate-800 font-bold flex flex-col items-center gap-2">
+                            <span class="text-4xl">🌊</span>
+                            <span>B. Laut</span>
+                        </button>
+                        <button onclick="checkL1('C')" class="btn-bounce bg-white border-2 border-sky-200 hover:border-sky-500 p-4 rounded-2xl shadow-md text-slate-800 font-bold flex flex-col items-center gap-2">
+                            <span class="text-4xl">🏫</span>
+                            <span>C. Sekolah</span>
+                        </button>
+                        <button onclick="checkL1('D')" class="btn-bounce bg-white border-2 border-sky-200 hover:border-sky-500 p-4 rounded-2xl shadow-md text-slate-800 font-bold flex flex-col items-center gap-2">
+                            <span class="text-4xl">⛰️</span>
+                            <span>D. Gunung</span>
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function checkL1(ans) {
+            if (ans === 'B') {
+                completeLevel(10, 'water_drop');
+            } else {
+                handleWrongAnswer("Belum tepat. Coba perhatikan kembali sumber air utama pada gambar.");
+            }
+        }
+
+
+        // ==========================================
+        // LEVEL 2: ZONA PENGUAPAN
+        // ==========================================
+        function renderLevel2() {
+            document.getElementById('hud-level-title').innerText = "Level 2: Zona Penguapan";
+            document.getElementById('level-badge-icon').innerText = "☀️";
+            document.getElementById('level-title').innerText = "☀️ LEVEL 2 — ZONA PENGUAPAN";
+            document.getElementById('level-narrative').innerText = '"Matahari memanaskan air di permukaan bumi. Bantu Aqua berubah menjadi uap air!"';
+
+            const challenge = document.getElementById('challenge-area');
+            challenge.innerHTML = `
+                <div class="w-full max-w-xl text-center">
+                    <!-- Interactive Heat Animation Canvas -->
+                    <div class="bg-gradient-to-b from-sky-200 to-blue-300 p-6 rounded-2xl border-2 border-sky-300 shadow-inner mb-5 relative overflow-hidden">
+                        <div class="flex justify-between items-center mb-6">
+                            <button id="sun-drag" onclick="triggerEvaporation()" class="btn-bounce text-5xl sm:text-6xl cursor-pointer p-2 bg-amber-100 rounded-full border-2 border-amber-300 shadow-md">
+                                ☀️
+                            </button>
+                            <span class="text-xs bg-white/80 font-bold text-amber-900 px-3 py-1 rounded-full border border-amber-300">
+                                👈 Klik Matahari untuk memanaskan air!
+                            </span>
+                            <div id="vapor-cloud" class="text-4xl opacity-0 transition-all duration-1000">💨</div>
+                        </div>
+                        <div class="w-full bg-blue-600/80 rounded-xl p-4 text-white text-3xl flex justify-center items-center gap-2 border-t-2 border-sky-200">
+                            🌊 💧 🌊 💧 🌊
+                        </div>
+                    </div>
+
+                    <div id="l2-quiz" class="hidden animate-fadeIn">
+                        <p class="font-bold text-slate-800 text-base sm:text-lg mb-3">
+                            Perubahan air menjadi uap karena pemanasan sinar matahari disebut...
+                        </p>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button onclick="checkL2('A')" class="btn-bounce bg-white p-3 rounded-xl border border-sky-300 font-bold text-slate-700">A. Kondensasi</button>
+                            <button onclick="checkL2('B')" class="btn-bounce bg-white p-3 rounded-xl border border-sky-300 font-bold text-slate-700">B. Presipitasi</button>
+                            <button onclick="checkL2('C')" class="btn-bounce bg-white p-3 rounded-xl border border-sky-300 font-bold text-slate-700">C. Evaporasi</button>
+                            <button onclick="checkL2('D')" class="btn-bounce bg-white p-3 rounded-xl border border-sky-300 font-bold text-slate-700">D. Infiltrasi</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function triggerEvaporation() {
+            playSfx('click');
+            const vapor = document.getElementById('vapor-cloud');
+            vapor.classList.remove('opacity-0');
+            vapor.classList.add('animate-bounce');
+            document.getElementById('l2-quiz').classList.remove('hidden');
+        }
+
+        function checkL2(ans) {
+            if (ans === 'C') {
+                completeLevel(20, 'sun_energy');
+            } else {
+                handleWrongAnswer("Belum tepat. Evaporasi adalah proses penguapan air oleh sinar matahari.");
+            }
+        }
+
+
+        // ==========================================
+        // LEVEL 3: KOTA AWAN
+        // ==========================================
+        let l3Sequence = [];
+        function renderLevel3() {
+            l3Sequence = [];
+            document.getElementById('hud-level-title').innerText = "Level 3: Kota Awan";
+            document.getElementById('level-badge-icon').innerText = "☁️";
+            document.getElementById('level-title').innerText = "☁️ LEVEL 3 — KOTA AWAN";
+            document.getElementById('level-narrative').innerText = '"Aqua telah berubah menjadi uap. Sekarang ia harus naik ke atmosfer dan membantu membentuk awan."';
+
+            const challenge = document.getElementById('challenge-area');
+            challenge.innerHTML = `
+                <div class="w-full max-w-2xl text-center">
+                    <p class="font-bold text-slate-800 text-base sm:text-lg mb-3">
+                        Susun urutan proses terbentuknya awan yang benar (Klik kartu sesuai urutan):
+                    </p>
+                    
+                    <div id="l3-selected-box" class="min-h-[50px] bg-sky-50 border-2 border-dashed border-sky-300 rounded-xl p-2 mb-4 flex justify-center gap-2 flex-wrap items-center">
+                        <span class="text-xs text-slate-400">Urutan Pilihanmu...</span>
+                    </div>
+
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+                        <button onclick="selectL3Card('Uap air')" class="btn-bounce bg-white p-3 rounded-xl border-2 border-sky-200 font-bold text-sm shadow-sm">💧 Uap air</button>
+                        <button onclick="selectL3Card('Udara dingin')" class="btn-bounce bg-white p-3 rounded-xl border-2 border-sky-200 font-bold text-sm shadow-sm">❄️ Udara dingin</button>
+                        <button onclick="selectL3Card('Titik air')" class="btn-bounce bg-white p-3 rounded-xl border-2 border-sky-200 font-bold text-sm shadow-sm">💦 Titik air</button>
+                        <button onclick="selectL3Card('Awan')" class="btn-bounce bg-white p-3 rounded-xl border-2 border-sky-200 font-bold text-sm shadow-sm">☁️ Awan</button>
+                    </div>
+
+                    <button onclick="resetL3()" class="text-xs text-slate-500 underline mr-4">Reset Urutan</button>
+
+                    <div id="l3-quiz" class="hidden mt-4 pt-4 border-t border-sky-200">
+                        <p class="font-bold text-slate-800 mb-2">Proses perubahan uap air menjadi titik-titik air disebut...</p>
+                        <div class="flex justify-center gap-3">
+                            <button onclick="checkL3('Kondensasi')" class="btn-bounce bg-sky-500 text-white font-bold px-6 py-2 rounded-xl">Kondensasi</button>
+                            <button onclick="checkL3('Evaporasi')" class="btn-bounce bg-sky-100 text-sky-900 font-bold px-6 py-2 rounded-xl">Evaporasi</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function selectL3Card(cardName) {
+            playSfx('click');
+            if (l3Sequence.includes(cardName)) return;
+            l3Sequence.push(cardName);
+
+            const box = document.getElementById('l3-selected-box');
+            box.innerHTML = l3Sequence.map(item => `<span class="bg-sky-500 text-white text-xs font-bold px-3 py-1.5 rounded-lg">${item}</span>`).join(' ➔ ');
+
+            if (l3Sequence.length === 4) {
+                const correctSeq = ['Uap air', 'Udara dingin', 'Titik air', 'Awan'];
+                if (JSON.stringify(l3Sequence) === JSON.stringify(correctSeq)) {
+                    document.getElementById('l3-quiz').classList.remove('hidden');
+                } else {
+                    handleWrongAnswer("Urutan belum tepat! Urutan yang benar: Uap air ➔ Udara dingin ➔ Titik air ➔ Awan.");
+                    resetL3();
+                }
+            }
+        }
+
+        function resetL3() {
+            l3Sequence = [];
+            document.getElementById('l3-selected-box').innerHTML = '<span class="text-xs text-slate-400">Urutan Pilihanmu...</span>';
+        }
+
+        function checkL3(ans) {
+            if (ans === 'Kondensasi') {
+                completeLevel(20, 'cloud_crystal');
+            } else {
+                handleWrongAnswer("Belum tepat. Kondensasi adalah proses pengembunan uap air menjadi titik-titik air.");
+            }
+        }
+
+
+        // ==========================================
+        // LEVEL 4: HUJAN MISTERIUS
+        // ==========================================
+        function renderLevel4() {
+            document.getElementById('hud-level-title').innerText = "Level 4: Hujan Misterius";
+            document.getElementById('level-badge-icon').innerText = "🌧️";
+            document.getElementById('level-title').innerText = "🌧️ LEVEL 4 — HUJAN MISTERIUS";
+            document.getElementById('level-narrative').innerText = '"Awan semakin berat dan penuh titik air. Buka salah satu awan misterius untuk menemukan pertanyaan!"';
+
+            const challenge = document.getElementById('challenge-area');
+            challenge.innerHTML = `
+                <div class="w-full max-w-xl text-center">
+                    <div class="flex justify-center gap-4 mb-6">
+                        <button onclick="openCloud('A')" class="btn-bounce bg-slate-800 text-white p-4 rounded-2xl border-2 border-sky-400 font-extrabold text-2xl flex flex-col items-center">
+                            <span>☁️</span>
+                            <span class="text-xs mt-1">Awan A</span>
+                        </button>
+                        <button onclick="openCloud('B')" class="btn-bounce bg-slate-800 text-white p-4 rounded-2xl border-2 border-sky-400 font-extrabold text-2xl flex flex-col items-center">
+                            <span>☁️</span>
+                            <span class="text-xs mt-1">Awan B</span>
+                        </button>
+                        <button onclick="openCloud('C')" class="btn-bounce bg-slate-800 text-white p-4 rounded-2xl border-2 border-sky-400 font-extrabold text-2xl flex flex-col items-center">
+                            <span>☁️</span>
+                            <span class="text-xs mt-1">Awan C</span>
+                        </button>
+                    </div>
+
+                    <div id="l4-quiz" class="hidden bg-white p-5 rounded-2xl border-2 border-sky-300 shadow-md">
+                        <p class="font-bold text-slate-800 text-base mb-4">
+                            "Awan semakin penuh dengan titik-titik air. Apa yang kemungkinan besar terjadi selanjutnya?"
+                        </p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <button onclick="checkL4('A')" class="btn-bounce bg-sky-50 hover:bg-sky-100 p-3 rounded-xl border border-sky-200 font-bold text-xs sm:text-sm text-slate-800">A. Air menghilang</button>
+                            <button onclick="checkL4('B')" class="btn-bounce bg-sky-50 hover:bg-sky-100 p-3 rounded-xl border border-sky-200 font-bold text-xs sm:text-sm text-slate-800">B. Air turun ke bumi sebagai hujan</button>
+                            <button onclick="checkL4('C')" class="btn-bounce bg-sky-50 hover:bg-sky-100 p-3 rounded-xl border border-sky-200 font-bold text-xs sm:text-sm text-slate-800">C. Air berubah menjadi tanah</button>
+                            <button onclick="checkL4('D')" class="btn-bounce bg-sky-50 hover:bg-sky-100 p-3 rounded-xl border border-sky-200 font-bold text-xs sm:text-sm text-slate-800">D. Air kembali ke matahari</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function openCloud(type) {
+            playSfx('click');
+            document.getElementById('l4-quiz').classList.remove('hidden');
+        }
+
+        function checkL4(ans) {
+            if (ans === 'B') {
+                completeLevel(20, null);
+            } else {
+                handleWrongAnswer("Belum tepat. Ketika awan jenuh, air akan jatuh ke bumi sebagai hujan (presipitasi).");
+            }
+        }
+
+
+        // ==========================================
+        // LEVEL 5: HUTAN RAHASIA
+        // ==========================================
+        function renderLevel5() {
+            document.getElementById('hud-level-title').innerText = "Level 5: Hutan Rahasia";
+            document.getElementById('level-badge-icon').innerText = "🌱";
+            document.getElementById('level-title').innerText = "🌱 LEVEL 5 — HUTAN RAHASIA";
+            document.getElementById('level-narrative').innerText = '"Aqua telah sampai di permukaan bumi. Sekarang ia ingin masuk ke dalam tanah. Pilih lingkungan yang membantu air meresap!"';
+
+            const challenge = document.getElementById('challenge-area');
+            challenge.innerHTML = `
+                <div class="w-full max-w-2xl text-center">
+                    <p class="font-bold text-slate-800 text-base mb-4">
+                        Pilih lingkungan yang paling memungkinkan air meresap dengan baik ke dalam tanah:
+                    </p>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                        <button onclick="selectL5Env('A')" class="btn-bounce bg-white p-4 rounded-2xl border-2 border-slate-300 hover:border-sky-400 text-left shadow-sm">
+                            <div class="text-4xl mb-2 text-center">🏙️ 🏢</div>
+                            <strong class="block text-slate-900 text-sm">Lingkungan A</strong>
+                            <p class="text-xs text-slate-600 mt-1">Banyak beton semen dan sedikit tanaman hijau.</p>
+                        </button>
+                        <button onclick="selectL5Env('B')" class="btn-bounce bg-white p-4 rounded-2xl border-2 border-slate-300 hover:border-emerald-500 text-left shadow-sm">
+                            <div class="text-4xl mb-2 text-center">🌳 🌿 🍃</div>
+                            <strong class="block text-emerald-800 text-sm">Lingkungan B</strong>
+                            <p class="text-xs text-slate-600 mt-1">Banyak pepohonan, tanaman, dan tanah terbuka.</p>
+                        </button>
+                    </div>
+
+                    <div id="l5-quiz" class="hidden bg-emerald-50 p-4 rounded-2xl border border-emerald-300 text-left">
+                        <p class="font-bold text-emerald-900 text-sm mb-2">Proses masuknya air hujan ke dalam tanah disebut...</p>
+                        <div class="flex gap-2">
+                            <button onclick="checkL5('Infiltrasi')" class="btn-bounce bg-emerald-600 text-white font-bold px-4 py-2 rounded-xl text-xs">Infiltrasi</button>
+                            <button onclick="checkL5('Kondensasi')" class="btn-bounce bg-white text-slate-800 font-bold px-4 py-2 rounded-xl text-xs border border-slate-300">Kondensasi</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function selectL5Env(type) {
+            playSfx('click');
+            if (type === 'B') {
+                document.getElementById('l5-quiz').classList.remove('hidden');
+            } else {
+                handleWrongAnswer("Lingkungan penuh beton menghalangi air masuk ke tanah!");
+            }
+        }
+
+        function checkL5(ans) {
+            if (ans === 'Infiltrasi') {
+                completeLevel(20, null);
+            } else {
+                handleWrongAnswer("Belum tepat. Infiltrasi adalah penyerapan air ke dalam tanah.");
+            }
+        }
+
+
+        // ==========================================
+        // LEVEL 6: LABIRIN SUNGAI
+        // ==========================================
+        let mazePos = { r: 0, c: 0 };
+        const mazeGrid = [
+            ['🌧️', '🌱', '🗑️', '🏢'],
+            ['🚧', '🏞️', '🌳', '🗑️'],
+            ['🏢', '🌊', '🌊', '🌊']
+        ];
+
+        function renderLevel6() {
+            mazePos = { r: 0, c: 0 };
+            document.getElementById('hud-level-title').innerText = "Level 6: Labirin Sungai";
+            document.getElementById('level-badge-icon').innerText = "🏞️";
+            document.getElementById('level-title').innerText = "🏞️ LEVEL 6 — LABIRIN SUNGAI";
+            document.getElementById('level-narrative').innerText = '"Bantu Aqua menelusuri aliran sungai dari Hujan menuju Laut, hindari penghalang sampah & beton!"';
+
+            const challenge = document.getElementById('challenge-area');
+            challenge.innerHTML = `
+                <div class="w-full max-w-xl text-center">
+                    <p class="font-bold text-slate-800 text-sm mb-3">Gunakan tombol arah untuk menggerakkan Aqua (💧) ke Laut (🌊)!</p>
+                    
+                    <!-- Maze Visual Grid -->
+                    <div id="maze-container" class="grid grid-cols-4 gap-2 bg-slate-800 p-4 rounded-2xl border-2 border-sky-400 mb-4 max-w-sm mx-auto">
+                        <!-- Cells rendered dynamically -->
+                    </div>
+
+                    <!-- D-Pad Controls -->
+                    <div class="flex flex-col items-center gap-1 mb-4">
+                        <button onclick="moveMaze(-1, 0)" class="btn-bounce bg-sky-500 text-white p-2 rounded-xl w-12 h-10 font-bold">⬆️</button>
+                        <div class="flex gap-4">
+                            <button onclick="moveMaze(0, -1)" class="btn-bounce bg-sky-500 text-white p-2 rounded-xl w-12 h-10 font-bold">⬅️</button>
+                            <button onclick="moveMaze(0, 1)" class="btn-bounce bg-sky-500 text-white p-2 rounded-xl w-12 h-10 font-bold">➡️</button>
+                        </div>
+                        <button onclick="moveMaze(1, 0)" class="btn-bounce bg-sky-500 text-white p-2 rounded-xl w-12 h-10 font-bold">⬇️</button>
+                    </div>
+
+                    <div id="l6-quiz" class="hidden bg-white p-4 rounded-2xl border border-sky-300">
+                        <p class="font-bold text-slate-800 text-sm mb-2">Apa yang dapat terjadi jika sungai dipenuhi sampah?</p>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="checkL6('A')" class="btn-bounce bg-sky-50 p-2 rounded-xl text-xs font-bold">A. Air lebih bersih</button>
+                            <button onclick="checkL6('B')" class="btn-bounce bg-sky-50 p-2 rounded-xl text-xs font-bold">B. Kualitas air menurun</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            drawMaze();
+        }
+
+        function drawMaze() {
+            const container = document.getElementById('maze-container');
+            let html = '';
+            for (let r = 0; r < 3; r++) {
+                for (let c = 0; c < 4; c++) {
+                    const isAqua = (r === mazePos.r && c === mazePos.c);
+                    const icon = isAqua ? '💧' : mazeGrid[r][c];
+                    html += `<div class="bg-slate-700/80 rounded-xl h-14 flex items-center justify-center text-2xl border border-slate-600">${icon}</div>`;
+                }
+            }
+            container.innerHTML = html;
+        }
+
+        function moveMaze(dr, dc) {
+            playSfx('click');
+            const nr = mazePos.r + dr;
+            const nc = mazePos.c + dc;
+
+            if (nr < 0 || nr >= 3 || nc < 0 || nc >= 4) return;
+
+            const targetItem = mazeGrid[nr][nc];
+            if (targetItem === '🗑️' || targetItem === '🏢' || targetItem === '🚧') {
+                handleWrongAnswer("Aduh! Ada penghalang/sampah. Cari jalur bersih!");
+                return;
+            }
+
+            mazePos = { r: nr, c: nc };
+            drawMaze();
+
+            if (nr === 2 && nc === 3) {
+                document.getElementById('l6-quiz').classList.remove('hidden');
+            }
+        }
+
+        function checkL6(ans) {
+            if (ans === 'B') {
+                completeLevel(20, 'river_stone');
+            } else {
+                handleWrongAnswer("Belum tepat. Sampah mencemari air dan menurunkan kualitas air.");
+            }
+        }
+
+
+        // ==========================================
+        // LEVEL 7: KOTA DALAM BAHAYA (HOTS)
+        // ==========================================
+        let l7Selections = [];
+        function renderLevel7() {
+            l7Selections = [];
+            document.getElementById('hud-level-title').innerText = "Level 7: Kota Dalam Bahaya";
+            document.getElementById('level-badge-icon').innerText = "🚨";
+            document.getElementById('level-title').innerText = "🚨 LEVEL 7 — KOTA DALAM BAHAYA (TANTANGAN HOTS)";
+            document.getElementById('level-narrative').innerText = '"Sebuah kota mengalami banjir setelah hujan deras. Banyak tanah tertutup beton dan jumlah pohon berkurang."';
+
+            const challenge = document.getElementById('challenge-area');
+            challenge.innerHTML = `
+                <div class="w-full max-w-2xl text-center">
+                    <p class="font-bold text-slate-800 text-base mb-4">
+                        Pilih <span class="text-rose-600 font-extrabold">2 SOLUSI</span> paling tepat untuk mengurangi masalah banjir di kota:
+                    </p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
+                        <div id="l7-card-1" onclick="toggleL7Selection(1)" class="btn-bounce bg-white p-4 rounded-2xl border-2 border-slate-200 cursor-pointer flex items-center gap-3">
+                            <span class="text-3xl">🌳</span>
+                            <span class="font-bold text-xs sm:text-sm text-left">Menanam pohon di lingkungan sekitar</span>
+                        </div>
+                        <div id="l7-card-2" onclick="toggleL7Selection(2)" class="btn-bounce bg-white p-4 rounded-2xl border-2 border-slate-200 cursor-pointer flex items-center gap-3">
+                            <span class="text-3xl">🗑️</span>
+                            <span class="font-bold text-xs sm:text-sm text-left">Membuang sampah ke sungai</span>
+                        </div>
+                        <div id="l7-card-3" onclick="toggleL7Selection(3)" class="btn-bounce bg-white p-4 rounded-2xl border-2 border-slate-200 cursor-pointer flex items-center gap-3">
+                            <span class="text-3xl">🌱</span>
+                            <span class="font-bold text-xs sm:text-sm text-left">Membuat daerah resapan air (biopori)</span>
+                        </div>
+                        <div id="l7-card-4" onclick="toggleL7Selection(4)" class="btn-bounce bg-white p-4 rounded-2xl border-2 border-slate-200 cursor-pointer flex items-center gap-3">
+                            <span class="text-3xl">🏗️</span>
+                            <span class="font-bold text-xs sm:text-sm text-left">Menutup seluruh tanah dengan semen</span>
+                        </div>
+                    </div>
+
+                    <button onclick="submitL7()" class="btn-bounce bg-rose-600 hover:bg-rose-500 text-white font-extrabold px-8 py-3 rounded-2xl shadow-lg">
+                        KIRIM SOLUSI
+                    </button>
+                </div>
+            `;
+        }
+
+        function toggleL7Selection(id) {
+            playSfx('click');
+            const idx = l7Selections.indexOf(id);
+            if (idx > -1) {
+                l7Selections.splice(idx, 1);
+            } else {
+                if (l7Selections.length < 2) l7Selections.push(id);
+            }
+
+            for (let i = 1; i <= 4; i++) {
+                const card = document.getElementById(`l7-card-${i}`);
+                if (l7Selections.includes(i)) {
+                    card.className = "btn-bounce bg-emerald-50 p-4 rounded-2xl border-2 border-emerald-500 cursor-pointer flex items-center gap-3 shadow-md";
+                } else {
+                    card.className = "btn-bounce bg-white p-4 rounded-2xl border-2 border-slate-200 cursor-pointer flex items-center gap-3";
+                }
+            }
+        }
+
+        function submitL7() {
+            if (l7Selections.length < 2) {
+                handleWrongAnswer("Pilih 2 solusi terlebih dahulu!");
+                return;
+            }
+
+            if (l7Selections.includes(1) && l7Selections.includes(3)) {
+                completeLevel(30, 'tree_seed');
+            } else {
+                handleWrongAnswer("Solusi belum tepat. Menanam pohon dan membuat daerah resapan air adalah langkah yang benar!");
+            }
+        }
+
+
+        // ==========================================
+        // LEVEL 8: KEMBALI KE LAUT
+        // ==========================================
+        let l8UserSeq = [];
+        function renderLevel8() {
+            l8UserSeq = [];
+            document.getElementById('hud-level-title').innerText = "Level 8: Kembali Ke Laut";
+            document.getElementById('level-badge-icon').innerText = "🌊";
+            document.getElementById('level-title').innerText = "🌊 LEVEL 8 — KEMBALI KE LAUT";
+            document.getElementById('level-narrative').innerText = '"Susun kembali tahapan perjalanan Aqua dari awal hingga kembali ke laut!"';
+
+            const challenge = document.getElementById('challenge-area');
+            challenge.innerHTML = `
+                <div class="w-full max-w-2xl text-center">
+                    <p class="font-bold text-slate-800 text-sm mb-3">Klik kartu secara berurutan sesuai Daur Air:</p>
+                    
+                    <div id="l8-seq-display" class="min-h-[50px] bg-sky-50 border-2 border-sky-300 rounded-xl p-2 mb-4 flex justify-center gap-1.5 flex-wrap items-center text-xs">
+                        <span class="text-slate-400">Pilih tahapan...</span>
+                    </div>
+
+                    <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 mb-4">
+                        <button onclick="pickL8('Evaporasi')" class="btn-bounce bg-white p-2.5 rounded-xl border border-sky-300 font-bold text-xs">☀️ Evaporasi</button>
+                        <button onclick="pickL8('Kondensasi')" class="btn-bounce bg-white p-2.5 rounded-xl border border-sky-300 font-bold text-xs">☁️ Kondensasi</button>
+                        <button onclick="pickL8('Presipitasi')" class="btn-bounce bg-white p-2.5 rounded-xl border border-sky-300 font-bold text-xs">🌧️ Presipitasi</button>
+                        <button onclick="pickL8('Infiltrasi')" class="btn-bounce bg-white p-2.5 rounded-xl border border-sky-300 font-bold text-xs">🌱 Infiltrasi</button>
+                        <button onclick="pickL8('Aliran Permukaan')" class="btn-bounce bg-white p-2.5 rounded-xl border border-sky-300 font-bold text-xs">🌊 Aliran Permukaan</button>
+                    </div>
+
+                    <button onclick="renderLevel8()" class="text-xs text-slate-500 underline">Reset Pilihan</button>
+                </div>
+            `;
+        }
+
+        function pickL8(item) {
+            playSfx('click');
+            if (l8UserSeq.includes(item)) return;
+            l8UserSeq.push(item);
+
+            const display = document.getElementById('l8-seq-display');
+            display.innerHTML = l8UserSeq.map(step => `<span class="bg-sky-600 text-white font-bold px-2.5 py-1 rounded-lg">${step}</span>`).join(' ➔ ');
+
+            if (l8UserSeq.length === 5) {
+                const target = ['Evaporasi', 'Kondensasi', 'Presipitasi', 'Infiltrasi', 'Aliran Permukaan'];
+                if (JSON.stringify(l8UserSeq) === JSON.stringify(target)) {
+                    completeLevel(20, null);
+                } else {
+                    handleWrongAnswer("Urutan daur air belum tepat. Urutan yang benar: Evaporasi ➔ Kondensasi ➔ Presipitasi ➔ Infiltrasi ➔ Aliran Permukaan.");
+                }
+            }
+        }
+
+
+        // ==========================================
+        // LEVEL 9: FINAL CHALLENGE
+        // ==========================================
+        let l9Selections = [];
+        function renderLevel9() {
+            l9Selections = [];
+            document.getElementById('hud-level-title').innerText = "Final Challenge: Selamatkan Daur Air";
+            document.getElementById('level-badge-icon').innerText = "🚨";
+            document.getElementById('level-title').innerText = "🚨 FINAL CHALLENGE — SELAMATKAN DAUR AIR";
+            document.getElementById('level-narrative').innerText = '"Aqua membutuhkan bantuanmu! Apa yang terjadi jika manusia menebang pohon, membuang sampah, dan menutup tanah dengan beton?"';
+
+            const challenge = document.getElementById('challenge-area');
+            challenge.innerHTML = `
+                <div class="w-full max-w-2xl text-center">
+                    <p class="font-bold text-slate-800 text-sm sm:text-base mb-4">
+                        Centang SEMUA pernyataan dampak negatif aktivitas manusia terhadap daur air:
+                    </p>
+
+                    <div class="space-y-2 mb-5 text-left text-xs sm:text-sm">
+                        <label class="flex items-center gap-3 bg-white p-3 rounded-xl border border-slate-200 cursor-pointer">
+                            <input type="checkbox" onchange="toggleL9(1)" class="w-5 h-5 accent-sky-600">
+                            <span>☑️ Daerah resapan air berkurang</span>
+                        </label>
+                        <label class="flex items-center gap-3 bg-white p-3 rounded-xl border border-slate-200 cursor-pointer">
+                            <input type="checkbox" onchange="toggleL9(2)" class="w-5 h-5 accent-sky-600">
+                            <span>☑️ Risiko banjir dan genangan air meningkat</span>
+                        </label>
+                        <label class="flex items-center gap-3 bg-white p-3 rounded-xl border border-slate-200 cursor-pointer">
+                            <input type="checkbox" onchange="toggleL9(3)" class="w-5 h-5 accent-sky-600">
+                            <span>☑️ Kualitas air menjadi menurun/tercemar</span>
+                        </label>
+                        <label class="flex items-center gap-3 bg-white p-3 rounded-xl border border-slate-200 cursor-pointer">
+                            <input type="checkbox" onchange="toggleL9(4)" class="w-5 h-5 accent-sky-600">
+                            <span>☑️ Cadangan air tanah berkurang</span>
+                        </label>
+                        <label class="flex items-center gap-3 bg-white p-3 rounded-xl border border-slate-200 cursor-pointer">
+                            <input type="checkbox" onchange="toggleL9(5)" class="w-5 h-5 accent-sky-600">
+                            <span>☐ Daur air berhenti selamanya (Salah)</span>
+                        </label>
+                    </div>
+
+                    <button onclick="submitL9()" class="btn-bounce bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold px-8 py-3 rounded-2xl shadow-xl text-base">
+                        🎉 SELESAIKAN MISI AKHIR
+                    </button>
+                </div>
+            `;
+        }
+
+        function toggleL9(id) {
+            playSfx('click');
+            const idx = l9Selections.indexOf(id);
+            if (idx > -1) l9Selections.splice(idx, 1);
+            else l9Selections.push(id);
+        }
+
+        function submitL9() {
+            // Correct answers are 1, 2, 3, 4 (not 5)
+            const isCorrect = l9Selections.length === 4 && 
+                l9Selections.includes(1) && 
+                l9Selections.includes(2) && 
+                l9Selections.includes(3) && 
+                l9Selections.includes(4) && 
+                !l9Selections.includes(5);
+
+            if (isCorrect) {
+                completeLevel(50, null);
+            } else {
+                handleWrongAnswer("Periksa kembali pilihanmu! Daur air tidak berhenti selamanya, tetapi kualitas dan jumlah air tanah berkurang.");
+            }
+        }
+
+        /* FUNCTION TO GENERATE AND DOWNLOAD PROJECT AS ZIP */
+        function downloadProjectZip() {
+            playSfx('click');
+            if (typeof JSZip === 'undefined') {
+                alert('Pustaka JSZip sedang dimuat, silakan coba beberapa saat lagi.');
+                return;
+            }
+
+            const zip = new JSZip();
+            // Get current full HTML source
+            const htmlContent = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+            
+            // Add index.html into the ZIP package
+            zip.file("index.html", htmlContent);
+            zip.file("README.txt", "Jejak Petualangan Aqua: Misi Menyelamatkan Daur Air\n\nCara Membuka:\n1. Ekstrak file ZIP ini.\n2. Buka file 'index.html' menggunakan browser (Chrome, Edge, Firefox, Safari).\n3. Selamat bermain!");
+
+            // Generate ZIP and trigger browser download
+            zip.generateAsync({ type: "blob" }).then(function(content) {
+                const a = document.createElement("a");
+                a.href = URL.createObjectURL(content);
+                a.download = "jejak-petualangan-aqua.zip";
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(a.href);
+            });
+        }
+
+        // Initialize state on load
+        window.onload = function() {
+            updateHUD();
+        }
+    </script>
 </body>
 </html>
